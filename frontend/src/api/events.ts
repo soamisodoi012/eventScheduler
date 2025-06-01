@@ -6,7 +6,7 @@ import {
   UserCredentials
 } from '../types/eventTypes';
 
-const API_URL = 'http://localhost:8000/api';
+const API_URL = '/api';
 
 axios.interceptors.request.use(config => {
   if (!config.headers) {

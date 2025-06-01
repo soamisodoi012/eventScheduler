@@ -1,38 +1,36 @@
-# Use an official Python image with valid tags
 FROM python:3.11-slim-bullseye
 
-# Set environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1 \
-    DJANGO_SETTINGS_MODULE=backend.backendeventProjcet.settings
+    PYTHONUNBUFFERED=1
 
-# Install system dependencies with improved retry logic
+WORKDIR /app
+
+# System dependencies
 RUN set -eux; \
     apt-get update; \
-    for i in {1..5}; do \
+    for i in 1 2 3; do \
         apt-get install -y --no-install-recommends \
             build-essential \
             libpq-dev \
             gettext \
-        && { apt-get clean; rm -rf /var/lib/apt/lists/*; break; } \
-        || { echo "Attempt $i failed, retrying..."; sleep 10; apt-get update; }; \
-    done
+            curl \
+        && break || sleep 5; \
+    done; \
+    apt-get clean; \
+    rm -rf /var/lib/apt/lists/*
 
-# Set work directory
-WORKDIR /app
-
-# Install Python dependencies
+# Install Python packages
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy project
+# Copy project files
 COPY . .
 
-# Collect static files
-RUN python manage.py collectstatic --noinput
+# Copy entrypoint script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
-# Expose port
+# Set entrypoint
+ENTRYPOINT ["/app/entrypoint.sh"]
+
 EXPOSE 8000
-
-# Run application
-CMD ["gunicorn", "scheduler.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "3"]
