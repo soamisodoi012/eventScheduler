@@ -1,0 +1,6 @@
+node_modules/
+
+# Ignore virtual environments
+virtualEnv/
+gitignore
+backend/eventapp/db.sqlite3
