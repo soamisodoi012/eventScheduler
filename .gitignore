@@ -2,6 +2,3 @@ node_modules/
 
 # Ignore virtual environments
 virtualEnv/
-
-# Ignore the .gitignore file itself
-.gitignore
