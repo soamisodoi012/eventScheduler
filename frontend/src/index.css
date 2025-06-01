@@ -1,0 +1,37 @@
+/* frontend/src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add calendar styles */
+.rbc-calendar {
+  height: 100%;
+  min-height: 600px;
+}
+
+.rbc-event {
+  background-color: #3b82f6;
+  border: 1px solid #3b82f6;
+  color: white;
+  padding: 2px 5px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.rbc-event:hover {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+.rbc-today {
+  background-color: #dbeafe;
+}
+
+.rbc-button-link {
+  font-weight: bold;
+}
+
+.rbc-header {
+  padding: 8px 0;
+  font-weight: bold;
+}
