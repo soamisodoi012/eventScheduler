@@ -47,6 +47,7 @@ services:
     volumes:
       - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./frontend/build:/usr/share/nginx/html
+      - ./backend/staticfiles:/static
     ports:
       - "80:80"
     networks:

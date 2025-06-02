@@ -8,3 +8,4 @@ whitenoise==6.6.0
 python-dateutil
 icalendar
 djangorestframework-simplejwt==5.2.2
+django-rest-passwordreset==2.0.1

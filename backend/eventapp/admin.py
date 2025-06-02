@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Event
+from .models import Event, User,OccurrenceOverride
 
 class EventAdmin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
@@ -7,3 +7,5 @@ class EventAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
 admin.site.register(Event, EventAdmin)
+admin.site.register(User)  # Register User model separately
+admin.site.register(OccurrenceOverride)

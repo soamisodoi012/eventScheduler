@@ -25,8 +25,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-vw5_er+!@n9&%&2t#2b@v!%jw8l^i5zhk3jmz#+dz7mv*0ppot'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-*')
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '*']
@@ -51,7 +49,8 @@ INSTALLED_APPS = [
     'eventapp',
     'corsheaders',  # For handling CORS
     'rest_framework',
-    'rest_framework_simplejwt'# Custom app for handling events
+    'rest_framework_simplejwt',
+    'django_rest_passwordreset'# Custom app for handling events
 ]
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -146,6 +145,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+DEFAULT_FROM_EMAIL = 'noreply@eventapp.com'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/

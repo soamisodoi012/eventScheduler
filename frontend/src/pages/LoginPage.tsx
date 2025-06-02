@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import LoginForm from '../components/LoginForm';
 import { UserCredentials } from '../types/eventTypes';
@@ -9,12 +9,12 @@ const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   const handleLogin = async (credentials: UserCredentials) => {
-    console.log('Credentials:', credentials);
+    
     try {
       await login(credentials);
       navigate('/');
     } catch (err) {
-      console.error('Login error:', err);
+    
       setError('Invalid username or password');
     }
   };
@@ -27,9 +27,9 @@ const LoginPage: React.FC = () => {
         <div className="mt-4 text-center">
           <p className="text-gray-600">
             Don't have an account?{' '}
-            <a href="/register" className="text-blue-600 hover:underline">
+            <Link to="/register" className="text-blue-600 hover:underline">
               Register
-            </a>
+            </Link>
           </p>
         </div>
       </div>
