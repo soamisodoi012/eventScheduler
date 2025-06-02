@@ -4,3 +4,4 @@ node_modules/
 virtualEnv/
 gitignore
 backend/eventapp/db.sqlite3
+backend/staticfiles/
