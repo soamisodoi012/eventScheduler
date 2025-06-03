@@ -9,21 +9,27 @@ cd event
    cd eventScheduler
  # convert Windows-style line endings (CRLF) to Unix-style line endings (LF) in a file.
       dos2unix ./backend/entrypoint.sh
-   run your docker desktop (open your docker desktop)
+# run your docker desktop (open your docker desktop)
 # build
    docker-compose build (docker-compose build frontend or docker-compose build backend)
 # run
    docker-compose up -d
    docker-compose up
-# to show django administration site create superuser
-   docker-compose exec backend python manage.py createsuperuser
-# enter the prompt credintial
-username,email,password
-# open browser for admin 
-http://localhost/admin
 # enduser event Scheduler url
 http://localhost/
 # show log
    docker-compose logs -f backend
    docker-compose logs -f frontend
+# open command prompt
+# navigate your cloned project example
+     cd Desktop
+    cd event/final/eventScheduler
+    C:\Users\hp\Desktop\event\final\eventScheduler>
+# to show django administration site create superuser
+
+   docker-compose exec backend python manage.py createsuperuser
+# enter the prompt credintial
+username,email,password
+# open browser for admin 
+http://localhost/admin
    
