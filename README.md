@@ -14,6 +14,7 @@ cd event
    docker-compose build (docker-compose build frontend or docker-compose build backend)
 # run
    docker-compose up -d
+   docker-compose up
 # to show django administration site create superuser
    docker-compose exec backend python manage.py createsuperuser
 # enter the prompt credintial
