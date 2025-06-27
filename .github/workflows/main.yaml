@@ -1,0 +1,90 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ eventSchedulerFinal ]
+  pull_request:
+    branches: [ eventSchedulerFinal ]
+
+env:
+  DOCKER_IMAGE_BACKEND: dejenie/eventscheduler-backend
+  DOCKER_IMAGE_FRONTEND: dejenie/eventscheduler-frontend
+  DOCKER_TAG: ${{ github.sha }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    # Set up Python for Django backend tests
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    # Install backend dependencies and run tests
+    - name: Test Backend
+      working-directory: ./backend
+      run: |
+        pip install -r requirements.txt
+        python manage.py test
+    
+    # Set up Node.js for React frontend tests
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    # Install frontend dependencies and run tests
+    - name: Test Frontend
+      working-directory: ./frontend
+      run: |
+        npm install
+        npm test -- --watchAll=false
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    # Login to Docker Hub
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+    
+    # Build and push backend image
+    - name: Build and push backend image
+      working-directory: ./backend
+      run: |
+        docker build -t $DOCKER_IMAGE_BACKEND:$DOCKER_TAG -t $DOCKER_IMAGE_BACKEND:latest -f ../Dockerfile.backend .
+        docker push $DOCKER_IMAGE_BACKEND:$DOCKER_TAG
+        docker push $DOCKER_IMAGE_BACKEND:latest
+    
+    # Build and push frontend image
+    - name: Build and push frontend image
+      working-directory: ./frontend
+      run: |
+        docker build -t $DOCKER_IMAGE_FRONTEND:$DOCKER_TAG -t $DOCKER_IMAGE_FRONTEND:latest -f ../Dockerfile.frontend .
+        docker push $DOCKER_IMAGE_FRONTEND:$DOCKER_TAG
+        docker push $DOCKER_IMAGE_FRONTEND:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    # Example deployment using SSH (adjust for your server)
+    - name: Deploy to production
+      run: |
+        echo "Deploying version $DOCKER_TAG"
+        # Example SSH deployment (uncomment and adjust):
+        # ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+        #   "docker pull $DOCKER_IMAGE_BACKEND:$DOCKER_TAG && \
+        #    docker pull $DOCKER_IMAGE_FRONTEND:$DOCKER_TAG && \
+        #    docker-compose -f /path/to/your/docker-compose.yml up -d"
