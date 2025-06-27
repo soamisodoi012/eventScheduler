@@ -35,5 +35,5 @@ docker-compose exec backend python manage.py createsuperuser
 enter the prompt credintial
 username,email,password
 
-open browser for adminsite
+open browser for adminsite admininstartion
 http://localhost/admin
