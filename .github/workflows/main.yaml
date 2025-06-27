@@ -2,9 +2,9 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ eventSchedulerFinal ]
+    branches: [ master ]
   pull_request:
-    branches: [ eventSchedulerFinal ]
+    branches: [ master ]
 
 env:
   DOCKER_IMAGE_BACKEND: dejenie/eventscheduler-backend
